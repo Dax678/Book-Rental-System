@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-rental
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: book-rental
+  template:
+    metadata:
+      labels:
+        app: book-rental
+    spec:
+      containers:
+        - name: book-rental
+          image: book-rental-app
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: db-secret
