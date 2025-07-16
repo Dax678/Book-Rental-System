@@ -53,21 +53,6 @@ public class RentalService {
         return rentalMapper.toRentalResponse(saved);
     }
 
-    private void validateBookAvailable(Book book) {
-        if(!book.isAvailable())
-            throw new IllegalStateException("Book is already rented");
-    }
-
-    private Rental createRental(User user, Book book) {
-        Rental rental = new Rental();
-        rental.setUser(user);
-        rental.setBook(book);
-        rental.setRentedAt(LocalDate.now());
-        rental.setDueDate(LocalDate.now().plusDays(14));
-        rental.setReturned(false);
-        return rental;
-    }
-
     public RentalResponse returnBook(Long rentalId) {
         Rental rental = getRentalOrThrow(rentalId);
         validateNotAlreadyReturned(rental);
@@ -83,17 +68,6 @@ public class RentalService {
                 rental.getBook().getTitle());
 
         return rentalMapper.toRentalResponse(saved);
-    }
-
-    private void updateBookAvailability(Book book, boolean available) {
-        book.setAvailable(available);
-        bookRepository.save(book);
-    }
-
-    private void validateNotAlreadyReturned(Rental rental) {
-        if (rental.isReturned()) {
-            throw new IllegalStateException("Book has already been returned");
-        }
     }
 
     public List<RentalResponse> getAllRentals() {
@@ -113,14 +87,6 @@ public class RentalService {
                 .toList();
     }
 
-    private List<Rental> getRentalsByFilter(User user, RentalFilter filter) {
-        return switch (filter) {
-            case ALL -> rentalRepository.findAllByUser(user);
-            case ACTIVE -> rentalRepository.findByUserAndReturned(user, false);
-            case RETURNED -> rentalRepository.findByUserAndReturned(user, true);
-        };
-    }
-
     public List<RentalHistoryResponse> getBookRentalHistory(Long bookId, RentalFilter filter) {
         Book book = getBookOrThrow(bookId);
         List<Rental> rentals = getRentalsByFilter(book, filter);
@@ -128,6 +94,40 @@ public class RentalService {
         return rentals.stream()
                 .map(rentalMapper::toHistoryResponse)
                 .toList();
+    }
+
+    private void validateBookAvailable(Book book) {
+        if(!book.isAvailable())
+            throw new IllegalStateException("Book is already rented");
+    }
+
+    private Rental createRental(User user, Book book) {
+        Rental rental = new Rental();
+        rental.setUser(user);
+        rental.setBook(book);
+        rental.setRentedAt(LocalDate.now());
+        rental.setDueDate(LocalDate.now().plusDays(14));
+        rental.setReturned(false);
+        return rental;
+    }
+
+    private void updateBookAvailability(Book book, boolean available) {
+        book.setAvailable(available);
+        bookRepository.save(book);
+    }
+
+    private void validateNotAlreadyReturned(Rental rental) {
+        if (rental.isReturned()) {
+            throw new IllegalStateException("Book has already been returned");
+        }
+    }
+
+    private List<Rental> getRentalsByFilter(User user, RentalFilter filter) {
+        return switch (filter) {
+            case ALL -> rentalRepository.findAllByUser(user);
+            case ACTIVE -> rentalRepository.findByUserAndReturned(user, false);
+            case RETURNED -> rentalRepository.findByUserAndReturned(user, true);
+        };
     }
 
     private List<Rental> getRentalsByFilter(Book book, RentalFilter filter) {

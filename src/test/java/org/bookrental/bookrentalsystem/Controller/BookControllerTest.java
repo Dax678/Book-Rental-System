@@ -1,0 +1,106 @@
+package org.bookrental.bookrentalsystem.Controller;
+
+import org.bookrental.bookrentalsystem.Data.Request.BookRequest;
+import org.bookrental.bookrentalsystem.Data.Response.BookResponse;
+import org.bookrental.bookrentalsystem.Service.BookService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.MediaType;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.stream.Stream;
+
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(BookController.class)
+class BookControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockitoBean
+    private BookService bookService;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Test
+    void shouldReturnBookById() throws Exception {
+        Long bookId = 1L;
+        BookResponse response = getBookResponse();
+
+        Mockito.when(bookService.getBookById(bookId)).thenReturn(response);
+
+        mockMvc.perform(get("/api/books/{bookId}", bookId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(bookId))
+                .andExpect(jsonPath("$.title").value("Clean Code"))
+                .andExpect(jsonPath("$.author").value("Robert C. Martin"))
+                .andExpect(jsonPath("$.isbn").value("1234567890"));
+    }
+
+    @Test
+    void shouldCreateBookSuccessfully() throws Exception {
+        BookRequest request = getBookRequest();
+
+        BookResponse response = getBookResponse();
+
+        Mockito.when(bookService.createBook(Mockito.any())).thenReturn(response);
+
+        mockMvc.perform(post("/api/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.title").value("Clean Code"))
+                .andExpect(jsonPath("$.author").value("Robert C. Martin"))
+                .andExpect(jsonPath("$.isbn").value("1234567890"));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidBookRequests")
+    void shouldReturnBadRequestWhenBookRequestInvalid(BookRequest request) throws Exception {
+        mockMvc.perform(post("/api/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
+
+    private static Stream<BookRequest> provideInvalidBookRequests() {
+        return Stream.of(
+                BookRequest.builder().title("").author("Author").isbn("1234567890").build(),                    // empty title
+                BookRequest.builder().title("Title").author("").isbn("1234567890").build(),                     // empty author
+                BookRequest.builder().title("Title").author("Author").isbn("").build(),                         // empty ISBN
+                BookRequest.builder().title("").author("").isbn("1234567890").build(),                          // empty title & author
+                BookRequest.builder().title("Title").author("").isbn("").build(),                               // empty author & ISBN
+                BookRequest.builder().title("").author("Author").isbn("").build(),                              // empty title & ISBN
+                BookRequest.builder().title("").author("").isbn("").build(),                                    // all empty
+                BookRequest.builder().title("Title").author("Author").isbn("123456789").build(),                // isbn < 10
+                BookRequest.builder().title("Title").author("Author").isbn("123456789012345678901").build()     // isbn > 20
+        );
+    }
+
+    private BookResponse getBookResponse() {
+        return BookResponse.builder()
+                .id(1L)
+                .title("Clean Code")
+                .author("Robert C. Martin")
+                .isbn("1234567890")
+                .build();
+    }
+
+    private BookRequest getBookRequest() {
+        return BookRequest.builder()
+                .title("Clean Code")
+                .author("Robert C. Martin")
+                .isbn("1234567890")
+                .build();
+    }
+}
