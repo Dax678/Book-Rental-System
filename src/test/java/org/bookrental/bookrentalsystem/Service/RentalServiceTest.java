@@ -265,7 +265,7 @@ class RentalServiceTest {
     private User getUser() {
         return User.builder()
                 .id(1L)
-                .name("John")
+                .fullName("John")
                 .build();
     }
 

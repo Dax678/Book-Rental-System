@@ -8,7 +8,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
@@ -21,7 +23,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(BookController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class BookControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -32,6 +35,7 @@ class BookControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
+    @WithMockUser(username = "jan@example.com", roles = {"LIBRARIAN"})
     void shouldReturnBookById() throws Exception {
         Long bookId = 1L;
         BookResponse response = getBookResponse();
@@ -47,6 +51,7 @@ class BookControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "jan@example.com", roles = {"LIBRARIAN"})
     void shouldCreateBookSuccessfully() throws Exception {
         BookRequest request = getBookRequest();
 
@@ -66,6 +71,7 @@ class BookControllerTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidBookRequests")
+    @WithMockUser(username = "jan@example.com", roles = {"LIBRARIAN"})
     void shouldReturnBadRequestWhenBookRequestInvalid(BookRequest request) throws Exception {
         mockMvc.perform(post("/api/books")
                         .contentType(MediaType.APPLICATION_JSON)

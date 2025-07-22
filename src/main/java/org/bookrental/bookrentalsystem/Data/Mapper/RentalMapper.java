@@ -26,7 +26,7 @@ public class RentalMapper {
                 .bookId(rental.getBook().getId())
                 .bookTitle(rental.getBook().getTitle())
                 .userId(rental.getUser().getId())
-                .userName(rental.getUser().getName())
+                .userName(rental.getUser().getFullName())
                 .rentedAt(rental.getRentedAt())
                 .returnDate(rental.getReturnDate())
                 .returned(rental.isReturned())

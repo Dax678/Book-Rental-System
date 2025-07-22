@@ -1,10 +1,7 @@
 package org.bookrental.bookrentalsystem.Controller;
 
-import jakarta.validation.Valid;
-import org.bookrental.bookrentalsystem.Data.Request.UserRequest;
 import org.bookrental.bookrentalsystem.Data.Response.UserResponse;
 import org.bookrental.bookrentalsystem.Service.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,11 +29,5 @@ public class UserController {
     @GetMapping("/name/{name}")
     public ResponseEntity<List<UserResponse>> getUserByName(@PathVariable String name) {
         return ResponseEntity.ok(userService.getUsersByName(name));
-    }
-
-    @PostMapping
-    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest request) {
-        UserResponse response = userService.createUser(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

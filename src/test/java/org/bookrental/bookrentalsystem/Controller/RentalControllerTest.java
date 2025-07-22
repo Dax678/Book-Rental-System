@@ -3,11 +3,13 @@ package org.bookrental.bookrentalsystem.Controller;
 import org.bookrental.bookrentalsystem.Data.Response.RentalHistoryResponse;
 import org.bookrental.bookrentalsystem.Data.Response.RentalResponse;
 import org.bookrental.bookrentalsystem.Service.RentalService;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,7 +21,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(RentalController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class RentalControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -30,6 +33,7 @@ class RentalControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
+    @WithMockUser(username = "jan@example.com", roles = {"STUDENT"})
     void shouldRentBook() throws Exception {
         Long userId = 1L;
         Long bookId = 1L;
@@ -47,6 +51,7 @@ class RentalControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "jan@example.com", roles = {"STUDENT"})
     void shouldReturnBook() throws Exception {
         Long rentalId = 1L;
 
@@ -60,6 +65,7 @@ class RentalControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "jan@example.com", roles = {"LIBRARIAN"})
     void shouldGetAllRentals() throws Exception {
         List<RentalResponse> rentals = List.of(getRentalResponse());
 
@@ -71,6 +77,7 @@ class RentalControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "jan@example.com", roles = {"STUDENT"})
     void shouldGetUserRentalHistory() throws Exception {
         Long userId = 1L;
         List<RentalHistoryResponse> history = List.of(getRentalHistoryResponse());
@@ -83,6 +90,7 @@ class RentalControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "jan@example.com", roles = {"LIBRARIAN"})
     void shouldGetBookRentalHistory() throws Exception {
         Long bookId = 1L;
         List<RentalHistoryResponse> history = List.of(getRentalHistoryResponse());

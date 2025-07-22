@@ -82,7 +82,7 @@ class UserServiceTest {
         User user = getUser();
         UserResponse response = getUserResponse();
 
-        Mockito.when(userRepository.findAllByNameContainingIgnoreCase("john")).thenReturn(List.of(user));
+        Mockito.when(userRepository.findAllByFullNameContainingIgnoreCase("john")).thenReturn(List.of(user));
         Mockito.when(userMapper.toUserResponse(user)).thenReturn(response);
 
         List<UserResponse> result = userService.getUsersByName("john");
@@ -94,33 +94,15 @@ class UserServiceTest {
 
     @Test
     void shouldThrowExceptionWhenUsersByNameNotFound() {
-        Mockito.when(userRepository.findAllByNameContainingIgnoreCase("unknown")).thenReturn(Collections.emptyList());
+        Mockito.when(userRepository.findAllByFullNameContainingIgnoreCase("unknown")).thenReturn(Collections.emptyList());
 
         assertThrows(UserNotFoundException.class, () -> userService.getUsersByName("unknown"));
-    }
-
-    @Test
-    void shouldCreateUserAndSendNotification() {
-        UserRequest request = getUserRequest();
-        User user = getUser();
-        UserResponse response = getUserResponse();
-
-        Mockito.when(userMapper.toEntity(request)).thenReturn(user);
-        Mockito.when(userRepository.save(user)).thenReturn(user);
-        Mockito.when(userMapper.toUserResponse(user)).thenReturn(response);
-
-        UserResponse result = userService.createUser(request);
-
-        assertNotNull(result);
-        assertEquals("John", result.getName());
-
-        Mockito.verify(notificationManager).notifyAll(user, "email.welcome", "John");
     }
 
     private User getUser() {
         return User.builder()
                 .id(1L)
-                .name("John")
+                .fullName("John")
                 .email("john@example.com")
                 .build();
     }

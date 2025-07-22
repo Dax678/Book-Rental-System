@@ -1,10 +1,13 @@
 -- USERS
 CREATE TABLE users
 (
-    id        BIGSERIAL PRIMARY KEY,
-    name      VARCHAR(100)        NOT NULL,
-    email     VARCHAR(100) UNIQUE NOT NULL,
-    user_type VARCHAR(50)         NOT NULL
+    id         BIGSERIAL PRIMARY KEY,
+    full_name  VARCHAR(100)        NOT NULL,
+    password   VARCHAR(100)        NOT NULL,
+    email      VARCHAR(100) UNIQUE NOT NULL,
+    user_type  VARCHAR(10)         NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP           NOT NULL
 );
 
 -- BOOKS

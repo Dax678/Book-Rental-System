@@ -1,10 +1,10 @@
 -- === USERS ===
-INSERT INTO users (name, email, user_type)
-VALUES ('Jan Kowalski', 'jan@example.com', 'student'),
-       ('Anna Nowak', 'anna@example.com', 'employee'),
-       ('Kasia Zielińska', 'kasia@example.com', 'guest'),
-       ('Piotr Wiśniewski', 'piotr@example.com', 'student'),
-       ('Zofia Lewandowska', 'zofia@example.com', 'employee');
+INSERT INTO users (full_name, password, email, user_type, created_at, updated_at)
+VALUES ('Jan Kowalski', '$2a$10$wjgD5ETqGxkbTNYW3r5Y4umSD9sWG6NWacos50OarutGcsnXzX8z.', 'jan@example.com', 'ADMIN', '2025-01-01', '2025-01-01'),
+       ('Anna Nowak', '$2a$10$wjgD5ETqGxkbTNYW3r5Y4umSD9sWG6NWacos50OarutGcsnXzX8z.','anna@example.com', 'LIBRARIAN', '2025-01-01', '2025-01-01'),
+       ('Kasia Zielińska', '$2a$10$wjgD5ETqGxkbTNYW3r5Y4umSD9sWG6NWacos50OarutGcsnXzX8z.','kasia@example.com', 'STUDENT', '2025-01-01', '2025-01-01'),
+       ('Piotr Wiśniewski', '$2a$10$wjgD5ETqGxkbTNYW3r5Y4umSD9sWG6NWacos50OarutGcsnXzX8z.', 'piotr@example.com', 'CUSTOMER', '2025-01-01', '2025-01-01'),
+       ('Zofia Lewandowska', '$2a$10$wjgD5ETqGxkbTNYW3r5Y4umSD9sWG6NWacos50OarutGcsnXzX8z.', 'zofia@example.com', 'CUSTOMER', '2025-01-01', '2025-01-01');
 
 -- === BOOKS ===
 INSERT INTO books (title, author, isbn, available)
