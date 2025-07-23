@@ -9,7 +9,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - ./docker/init:/docker-entrypoint-initdb.d
     networks:
       - backend
 
@@ -24,9 +24,11 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/BookRentalSystemDB
       SPRING_DATASOURCE_USERNAME: secret
       SPRING_DATASOURCE_PASSWORD: secret
-      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
-      SPRING_SQL_INIT_MODE: always
-      SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION: true
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      SPRING_SQL_INIT_MODE: never
+      SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION: false
+#      SPRING_SQL_INIT_SCHEMA_LOCATIONS: file:./docker/init/01-schema.sql
+#      SPRING_SQL_INIT_DATA_LOCATIONS: file:./docker/init/02-data.sql
     networks:
       - backend
 

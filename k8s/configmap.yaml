@@ -4,6 +4,6 @@ metadata:
   name: app-config
 data:
   SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/BookRentalSystemDB"
-  SPRING_JPA_HIBERNATE_DDL_AUTO: "create-drop"
-  SPRING_SQL_INIT_MODE: "always"
-  SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION: "true"
+  SPRING_JPA_HIBERNATE_DDL_AUTO: "none"
+  SPRING_SQL_INIT_MODE: "never"
+  SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION: "false"
