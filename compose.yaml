@@ -11,11 +11,11 @@ services:
     volumes:
       - ./docker/init:/docker-entrypoint-initdb.d
     networks:
-      - backend
+      - app-network
 
-  app:
-    build: .
-    container_name: book-rental-app
+  backend:
+    build: ./backend
+    container_name: book-rental-backend
     depends_on:
       - db
     ports:
@@ -27,13 +27,25 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: none
       SPRING_SQL_INIT_MODE: never
       SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION: false
-#      SPRING_SQL_INIT_SCHEMA_LOCATIONS: file:./docker/init/01-schema.sql
-#      SPRING_SQL_INIT_DATA_LOCATIONS: file:./docker/init/02-data.sql
+    #      SPRING_SQL_INIT_SCHEMA_LOCATIONS: file:./docker/init/01-schema.sql
+    #      SPRING_SQL_INIT_DATA_LOCATIONS: file:./docker/init/02-data.sql
     networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    container_name: book-rental-frontend
+    ports:
+      - "3000:80"
+    environment:
+      VITE_API_URL: http://backend:8080/api
+    depends_on:
       - backend
+    networks:
+      - app-network
 
 volumes:
   db_data:
 
 networks:
-  backend:
+  app-network:

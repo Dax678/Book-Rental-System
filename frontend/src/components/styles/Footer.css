@@ -1,0 +1,43 @@
+.footer {
+    margin-top: 4rem;
+}
+
+.footer h5,
+.footer h6 {
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+}
+
+.footer .small {
+    color: #cccccc;
+    line-height: 1.6;
+}
+
+.footer-link {
+    color: #aaaaaa;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.social-icon {
+    font-size: 1.5rem;
+    color: #aaaaaa;
+    transition: color 0.2s;
+}
+
+.social-icon:hover {
+    color: #ffffff;
+}
+
+@media (max-width: 575px) {
+    .footer {
+        padding-top: 2rem;
+    }
+}

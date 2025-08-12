@@ -1,0 +1,30 @@
+.books-page .book-card {
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.books-page .book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+.books-page .card-img-top {
+    height: 240px;
+    object-fit: cover;
+}
+.books-page .btn-primary {
+    background-color: #006400;
+    border-color: #006400;
+    transition: background-color 0.2s;
+}
+.books-page .btn-primary:hover {
+    background-color: #004d00;
+    border-color: #004d00;
+}
+
+/* Pagina */
+.pagination .page-item.disabled .page-link {
+    pointer-events: none;
+}
+.pagination .page-item.active .page-link {
+    background-color: #006400;
+    border-color: #006400;
+}

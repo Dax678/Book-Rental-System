@@ -1,0 +1,27 @@
+.bestsellers-section {
+    background-color: #f9f9f9;
+}
+
+.bestsellers-section .card {
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bestsellers-section .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.bestsellers-section .card-title {
+    font-size: 1.1rem;
+}
+
+.bestsellers-section .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.bestsellers-section .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}

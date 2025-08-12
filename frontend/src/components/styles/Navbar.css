@@ -1,0 +1,17 @@
+.custom-navbar {
+    background-color: #e8f5e9;
+}
+
+.custom-navbar .nav-link {
+    color: #006400;
+    margin: 0 1.5rem;
+    padding: 0.5rem 0;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.custom-navbar .nav-link:hover {
+    background-color: #ffffff;
+    color: #004d00;
+    border-radius: 0.25rem;
+}
