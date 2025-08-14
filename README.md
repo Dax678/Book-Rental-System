@@ -88,20 +88,26 @@ docker-compose up --build
 
 Some key endpoints:
 
-| Method | Endpoint                                 | Description             |
-| ------ | ---------------------------------------- | ----------------------- |
-| GET    | `/api/books`                             | List all books          |
-| POST   | `/api/books`                             | Add new book            |
-| GET    | `/api/users`                             | List all users          |
-| POST   | `/api/users`                             | Add new user            |
-| GET    | `/api/users/{id}`                        | List user by ID         |
-| GET    | `/api/users/name/{name}`                 | List user by name       |
-| GET    | `/api/rentals/rent`                      | List all rents          |
-| POST   | `/api/rentals/rent`                      | Rent a book             |
-| POST   | `/api/rentals/return/{id}`               | Return a rented book    |
-| GET    | `/api/rentals/user/{userId}?filter=`     | Get user rental history (ALL / ACTIVE / RETURNED) |
-| GET    | `/api/rentals/book/{bookId}?filter=`     | Get user rental history (ALL / ACTIVE / RETURNED) |
-
+| Method | Endpoint                                 | Description                              |
+| ------ | ---------------------------------------- | ---------------------------------------- |
+| POST   | `/api/auth/signup`                       | Create new account                       |
+| POST   | `/api/auth/login`                        | Login into account                       |
+| GET    | `/api/transactions`                      | List all transactions 🔒                 |
+| GET    | `/api/transactions/book/{bookId}`        | Get transactions by book ID 🔒           |
+| GET    | `/api/transactions/me`                   | Get transactions for logged-in user 🔒   |
+| POST   | `/api/transactions/rent`                 | Rent a book 🔒                           |
+| POST   | `/api/transactions/return/{rentalId}`    | Return a rented book 🔒                  |
+| GET    | `/api/transactions/user/{userId}`        | Get transactions by user ID 🔒           |
+| GET    | `/api/books`                             | List all books                           |
+| POST   | `/api/books/save`                        | Add or update a book 🔒                  |
+| GET    | `/api/books/{id}`                        | Get book by ID                           |
+| GET    | `/api/promotions`                        | List all promotions                      |
+| POST   | `/api/promotions/save`                   | Add or update a promotion 🔒             |
+| GET    | `/api/prices/history`                    | Get book price history                   |
+| GET    | `/api/users`                             | List all users 🔒                        |
+| GET    | `/api/users/me`                          | Get details of logged-in user 🔒         |
+| GET    | `/api/users/name/{name}`                 | Get users by name 🔒                     |
+| GET    | `/api/users/{id}`                        | Get user by ID 🔒                        |
 ---
 
 ## ✅ Features
