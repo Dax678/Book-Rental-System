@@ -1,21 +1,30 @@
 # 📚 Book Rental System
 
-A Java Spring Boot application for managing book rentals. Users can view available books, rent and return them, and browse rental history.
+A Java Spring Boot + React TypeScript full-stack application for managing both book rentals and purchases. 
+
+It offers separate Admin and User panels:
+* **Admin Panel** – manage books, promotions, prices, and view all user transactions.
+* **User Panel** – browse available books, rent or buy them, manage personal rentals, and view purchase history.
+
+The platform supports secure JWT authentication, clean and maintainable architecture, and containerized deployment with Docker & Kubernetes.
 
 ---
 
-## 🚀 Technologies Used
-
-* Java 21
-* Spring Boot
-* Spring Data JPA
-* PostgreSQL
-* Maven
-* Docker & Docker Compose
-* Kubernetes (Minikube)
-* Swagger / OpenAPI
-* Clean Architecture principles
-
+## 🚀 Tech Stack
+* Backend:
+   * Java 21
+   * Spring Boot 3
+   * Spring Data JPA
+   * PostgreSQL
+   * Maven
+   * Swagger / OpenAPI
+* Frontend:
+   * React
+   * Typescript
+* Other:
+   * Docker & Docker Compose
+   * Kubernetes (Minikube)
+   * Clean Architecture principles
 ---
 
 ## ⚙️ Getting Started
@@ -24,12 +33,13 @@ A Java Spring Boot application for managing book rentals. Users can view availab
 
 * Java 21
 * Maven 3.8+
+* Node.js 18+
 * Docker
 * (Optional) Minikube for Kubernetes
 
 ---
 
-### ▶️ Running locally with Maven
+### ▶️ Running locally with Maven (Backend)
 
 ```bash
 # Build the project
@@ -42,6 +52,18 @@ A Java Spring Boot application for managing book rentals. Users can view availab
 App will be available at: [http://localhost:8080](http://localhost:8080)
 
 Swagger UI: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+---
+
+### ▶️ Running locally (Frontend)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+App will be available at: [http://localhost:8080](http://localhost:8080)
 
 ---
 
@@ -91,7 +113,7 @@ Some key endpoints:
 | Method | Endpoint                                 | Description                              |
 | ------ | ---------------------------------------- | ---------------------------------------- |
 | POST   | `/api/auth/signup`                       | Create new account                       |
-| POST   | `/api/auth/login`                        | Login into account                       |
+| POST   | `/api/auth/login`                        | Authenticate user and get JWT            |
 | GET    | `/api/transactions`                      | List all transactions 🔒                 |
 | GET    | `/api/transactions/book/{bookId}`        | Get transactions by book ID 🔒           |
 | GET    | `/api/transactions/me`                   | Get transactions for logged-in user 🔒   |
@@ -112,32 +134,28 @@ Some key endpoints:
 
 ## ✅ Features
 
-* User, Book and Rental management
-* Active/returned rental filtering
+* Full-stack online bookstore
+* Ability to rent or buy books
+* Separate Admin and User panels
+* User, Book, Promotion, and Rental management
+* JWT authentication & authorization
 * Global error handling
 * DTOs + mappers for clean API responses
 * Validation with custom messages
 * Email notifications
 * Swagger/OpenAPI integration
-* Docker & K8s ready
+* Docker & Kubernetes ready
+* React-based responsive UI
 
 ---
 
 ## 📁 Project Structure
 
 ```
-src/
-├── config/            # Config (Error handling)
-├── controller/        # REST Controllers
-├── data/
-      ├── entity/      # REST Controllers
-      ├── mapper/      # REST Controllers
-      ├── request/     # REST Controllers
-      ├── response/    # REST Controllers
-├── notification/      # Email Notification
-├── repository/        # Spring Data JPA repositories
-├── service/           # Business logic
-└── BookRentalSystemApplication.java
+backend/       # Spring Boot backend
+frontend/      # React TypeScript frontend
+k8s/           # Kubernetes manifests
+compose.yaml   # Docker Compose setup
 ```
 
 ---
